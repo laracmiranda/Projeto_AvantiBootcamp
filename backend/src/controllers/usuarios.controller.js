@@ -20,7 +20,7 @@ export const getUsuarioPorCpf = async (req, res) => {
     const cpf = req.params.cpf;
     const usuario = await buscarUsuarioPorCpf(cpf);
 
-    if(!usuario) return res.status(404).json({erro: 'Usuário não encontrado'});
+    if (!usuario) return res.status(404).json({erro: 'Usuário não encontrado'});
     res.status(200).json(usuario);
   } catch(error){
     res.status(500).json({erro: 'Erro ao buscar o usuário', mensagem: error.message});

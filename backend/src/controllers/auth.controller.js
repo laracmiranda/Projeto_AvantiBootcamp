@@ -18,7 +18,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ erro: 'Email ou senha inválidos' });
         }
 
-        // ✅ JWT com email no payload
+        //JWT com email no payload
         const token = jwt.sign(
             { usuario: { email: usuario.email } },
             SECRET,
