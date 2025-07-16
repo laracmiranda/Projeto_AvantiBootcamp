@@ -1,28 +1,24 @@
 import usuariosRepository from '../repositories/usuarios.repository.js';
+import bcrypt from 'bcryptjs';
 
 export const listarUsuarios = async () => {
     return await usuariosRepository.findAll();
 };
 
 export const buscarUsuarioPorCpf = async (cpf) => {
-    return await usuariosRepository.findUserByCpf(cpf);
-};
-
-export const criarUsuario = async (dados) => {
-    return await usuariosRepository.create(dados);
+    return await usuariosRepository.findById(cpf);
 };
 
 export const buscarUsuarioPorEmail = async (email) => {
-    return await usuariosRepository.findUserByEmail(email);
-}
+    return await usuariosRepository.findByEmail(email);
+};
 
-export const listarPropostasFeitas = async (cpf) => {
-    return await usuariosRepository.findPropostasFeitas(cpf);
-}
-
-export const listarPropostasRecebidas = async (cpf) => {
-    return await usuariosRepository.findPropostasRecebidas(cpf);
-}
+//Criptografando a senha antes de enviar para o repositório
+export const criarUsuario = async (dados) => {
+    const senhaCriptografada = await bcrypt.hash(dados.senha, 10);
+    const dadosComSenhaSegura = { ...dados, senha: senhaCriptografada };
+    return await usuariosRepository.create(dadosComSenhaSegura);
+};
 
 export const atualizarUsuario = async (cpf, dados) => {
     return await usuariosRepository.update(cpf, dados);
@@ -31,4 +27,3 @@ export const atualizarUsuario = async (cpf, dados) => {
 export const removerUsuario = async (cpf) => {
     return await usuariosRepository.delete(cpf);
 };
-

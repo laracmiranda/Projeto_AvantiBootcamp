@@ -1,24 +1,21 @@
 import express from "express";
 import cors from 'cors';
-import routes from './src/routes/index.js';
 import cookieParser from "cookie-parser";
-import authRouter from './src/routes/auth.routes.js'
+import routes from './src/routes/index.js';
+
 
 
 const app = express();
-const corsOptions = {origin: "http://localhost:5173", credentials: true};
-
-//Tratar JSON
-app.use(express.json());
 
 //Acesso para API
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 
-//biblioteca cookies
-app.use(cookieParser());
 
-//Rota de login ultilizando JASON WEB TOKEN (JWT)
-app.use(authRouter);
+app.use(express.json());//Tratar JSON
+app.use(cookieParser());//biblioteca cookies
 
 //Rotas de aplicação
 app.use(routes);
